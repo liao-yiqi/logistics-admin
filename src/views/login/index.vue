@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { getCaptchaAPI, loginAPI } from '@/api/login'
+import { getCaptchaAPI } from '@/api/login'
+import useLoading from '@/hooks/useLoading'
+import useUserInfo from '@/store/modules/user'
 import type { LoginForm } from '@/types/login'
 import { randomNum } from '@/utils/random.ts'
 import type { FormInstance, FormRules } from 'element-plus'
 import { onMounted, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const randomId = randomNum(24, 16)
 const codeImg = ref<string>()
@@ -20,18 +23,14 @@ onMounted(() => {
   getCaptcha()
 })
 
-const getImageCaptcha = () => {}
-
 const loginForm = reactive<LoginForm>({
   // demo 995itheima.CN032@.当前日期
   account: 'demo',
-  password: '995itheima.CN032@.20250711',
+  password: '995itheima.CN032@.20250714',
   code: '',
   tenant: '0000',
   key: randomId,
 })
-
-const loading = ref<boolean>(false)
 
 const loginFormRules = reactive<FormRules<LoginForm>>({
   account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
@@ -39,18 +38,20 @@ const loginFormRules = reactive<FormRules<LoginForm>>({
 })
 
 const loginFormRef = ref<FormInstance>()
-const onSubmit = (loginFormRef: FormInstance) => {
+const userStroe = useUserInfo()
+const { loading, setLoading } = useLoading()
+const router = useRouter()
+const onSubmit = (loginFormRef: FormInstance): void => {
   loginFormRef.validate(async (valid, _) => {
     if (!valid) return
-    loading.value = true
-    const { code } = await loginAPI(loginForm)
-    if (code !== 200) {
-      loading.value = false
-      return
-    } else {
+    try {
+      setLoading(true)
+      await userStroe.login(loginForm)
+      setLoading(false)
+      router.push({ path: '/' })
+    } catch {
+      setLoading(false)
     }
-    loading.value = false
-    console.log('登录表单数据:', loginForm)
   })
 }
 </script>
@@ -108,7 +109,7 @@ const onSubmit = (loginFormRef: FormInstance) => {
           :src="codeImg"
           alt="codeImage"
           class="xl-login__form--code-img"
-          @click="getImageCaptcha"
+          @click="getCaptcha()"
         />
       </el-form-item>
       <el-button
@@ -227,7 +228,7 @@ $cursor: #555;
         width: 100%;
         height: 54px;
         border-radius: 5px;
-        background-color: rgba(85, 83, 83, 0.972);
+        background-color: rgba(85, 83, 83, 0.996);
         z-index: 2;
         pointer-events: none;
       }

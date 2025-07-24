@@ -6,7 +6,8 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios'
 import { ElMessage } from 'element-plus'
-import { getToken } from './auth'
+import { getToken, removeToken } from './auth'
+import router from '@/router/index'
 
 const service: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,
@@ -18,7 +19,7 @@ service.interceptors.request.use(
     config.headers['Content-Type'] = 'application/json'
     const token = getToken()
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
+      config.headers['Authorization'] = `${token}`
     }
     return config
   },
@@ -37,9 +38,9 @@ service.interceptors.response.use(
     if (isBinary) {
       return response.data
     }
-    const { code, msg, data } = response.data
+    const { code, msg } = response.data
     if (code === 200) {
-      return data
+      return response.data
     } else {
       ElMessage.error(msg || '请求错误')
       return Promise.reject(new Error(msg))
@@ -49,6 +50,8 @@ service.interceptors.response.use(
     let msg = ''
     switch (error.response?.status) {
       case 401:
+        removeToken()
+        router.push('/login')
         msg = '登录失效，请重新登录'
         break
       case 403:

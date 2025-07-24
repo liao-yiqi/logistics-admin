@@ -8,12 +8,14 @@ import {
 declare module 'vue-router' {
   interface _RouteRecordBase {
     hidden?: boolean
-    permissions?: string[]
     roles?: string[]
-    name?: string
     alwaysShow?: boolean
-    fullPath?: string
     parentPath?: string
+    parentId?: string
+    icon?: string
+    // permissions?: string[]
+    // name?: string
+    // fullPath?: string
   }
   interface RouteMeta {
     title: string

@@ -10,11 +10,13 @@
     "lint": "eslint . --ext .vue,.ts,.js"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@types/js-cookie": "^3.0.6",
     "axios": "^1.10.0",
     "element-plus": "^2.10.3",
     "js-cookie": "^3.0.5",
     "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
     "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.4.1",
     "vue": "^3.5.17",
@@ -23,6 +25,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.4",
     "@types/node": "^24.0.12",
+    "@types/nprogress": "^0.2.3",
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
     "@vitejs/plugin-vue": "^6.0.0",
@@ -35,6 +38,7 @@
     "sass": "^1.89.2",
     "typescript": "~5.8.3",
     "vite": "^7.0.3",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^2.2.12"
   }
 }

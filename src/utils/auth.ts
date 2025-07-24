@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import Local_Storage from './useStorage'
+import { Local_Storage } from './useStorage'
 const TokenKey = 'TMS-Admin'
 
 export function getToken() {

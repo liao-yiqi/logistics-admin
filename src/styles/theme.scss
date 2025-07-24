@@ -1,0 +1,12 @@
+@use 'variables'as vars;
+
+:root {
+    --menu-text: #{vars.$menuText};
+    --menu-active-text: #{vars.$menuActiveText};
+    --sub-menu-active-text: #{vars.$subMenuActiveText};
+    --menu-bg: #{vars.$menuBg};
+    --menu-hover: #{vars.$menuHover};
+    --sub-menu-bg: #{vars.$subMenuBg};
+    --sub-menu-hover: #{vars.$subMenuHover};
+    --side-bar-width: #{vars.$sideBarWidth};
+}

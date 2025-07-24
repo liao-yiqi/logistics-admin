@@ -1,5 +1,3 @@
-import type { UserInfo } from './global'
-
 export interface LoginResult {
   user: UserInfo
   token: Token
