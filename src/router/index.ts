@@ -11,11 +11,15 @@ export const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/',
     component: Layout,
-  },
-  {
-    path: '/dashboard',
-    component: () => import('@/views/dashboard/index.vue'),
-    alwaysShow: false,
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/index.vue'),
+        meta: { title: '工作台', icon: 'dasnboard', navShow: false },
+      },
+    ],
   },
 ]
 

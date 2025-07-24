@@ -13,6 +13,7 @@ declare module 'vue-router' {
     parentPath?: string
     parentId?: string
     icon?: string
+    redirect?: string
     // permissions?: string[]
     // name?: string
     // fullPath?: string
@@ -23,6 +24,7 @@ declare module 'vue-router' {
     noCache?: boolean
     link?: string
     activeMenu?: string
+    navShow?: boolean
   }
   interface _RouteLocationBase {
     fullPath: string

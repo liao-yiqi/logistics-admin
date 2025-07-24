@@ -36,8 +36,8 @@ const resolvePath = (routePath: string): string => {
   if (isExternal(routePath)) return routePath
   if (routePath.startsWith('/')) return routePath
   const cleanBase = basePath.replace(/\/+$/, '')
-  const cleanRoute = routePath.replace(/^\/+/, '')
-  return `${cleanBase}/${cleanRoute}`
+  // const cleanRoute = routePath.replace(/^\/+/, '')
+  return `${cleanBase}`
 }
 </script>
 
@@ -55,13 +55,33 @@ const resolvePath = (routePath: string): string => {
           :index="resolvePath(onlyOneChild.path)"
           :class="{ 'submenu-title-noDropdown': !isNest }"
         >
-          <img v-if="item.parentId === '0'" :src="item.icon" />
+          <img v-if="item.parentId === '0'" :src="item.icon" class="menu-icon" />
           <Item :title="onlyOneChild.meta.title" />
         </el-menu-item>
       </AppLink>
     </template>
-    <el-sub-menu v-else ref="subMenu" :index="resolvePath(item.path)"> </el-sub-menu>
+    <el-sub-menu v-else ref="subMenu" :index="resolvePath(item.path)">
+      <template #title>
+        <img :src="item.icon" class="menu-icon" style="margin-right: 19px" />
+        <Item v-if="item.meta" :title="item.meta.title" />
+      </template>
+      <MenuItem
+        v-for="subItem in item.children"
+        :key="subItem.path"
+        :isNest="true"
+        :item="subItem"
+        :basePath="resolvePath(subItem.path)"
+        class="nest-menu"
+      />
+    </el-sub-menu>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.menu-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+</style>

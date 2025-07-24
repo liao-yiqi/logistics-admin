@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import Logo from './Logo.vue'
 import useLayoutStore from '@/store/modules/layout'
 import { useRoute } from 'vue-router'
@@ -11,7 +11,7 @@ const showLogo = computed(() => {
 
 const layoutStore = useLayoutStore()
 const isCollapse = computed(() => {
-  return layoutStore.sidebar.opened
+  return !layoutStore.sidebar.opened
 })
 
 const { meta, path } = useRoute()
@@ -37,10 +37,9 @@ const routes = computed(() => {
         :collapse-transition="false"
         :unique-opened="true"
         :collapse="isCollapse"
-        mode="vertical"
         text-color="var(--menu-text)"
-        background-color="var(--menu-bg)"
         active-text-color="var(--menu-active-text)"
+        background-color="#fff"
       >
         <MenuItem v-for="route in routes" :key="route.path" :item="route" :basePath="route.path" />
       </el-menu>

@@ -1,7 +1,15 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const key = computed(() => {
+  return route.path
+})
+</script>
 
 <template>
-  <section class="main-container">main</section>
+  <router-view :key="key" />
 </template>
 
 <style lang="scss" scoped>
