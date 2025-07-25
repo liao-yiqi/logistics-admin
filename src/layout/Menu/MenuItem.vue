@@ -36,7 +36,6 @@ const resolvePath = (routePath: string): string => {
   if (isExternal(routePath)) return routePath
   if (routePath.startsWith('/')) return routePath
   const cleanBase = basePath.replace(/\/+$/, '')
-  // const cleanRoute = routePath.replace(/^\/+/, '')
   return `${cleanBase}`
 }
 </script>
@@ -83,5 +82,9 @@ const resolvePath = (routePath: string): string => {
   height: 16px;
   object-fit: contain;
   vertical-align: middle;
+}
+
+a {
+  text-decoration: none;
 }
 </style>
