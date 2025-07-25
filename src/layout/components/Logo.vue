@@ -26,7 +26,7 @@ const { collapse } = defineProps<Props>()
   line-height: 70px;
   text-align: center;
   overflow: hidden;
-  padding: 20px 20px 0;
+  padding: 20px 0 0;
   margin-bottom: 15px;
   .sidebar-logo {
     width: 152px;

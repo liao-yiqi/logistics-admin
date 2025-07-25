@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import Logo from './Logo.vue'
 import useLayoutStore from '@/store/modules/layout'
 import { useRoute } from 'vue-router'
 import MenuItem from '../Menu/MenuItem.vue'
 import useUserInfo from '@/store/modules/user'
+
 const showLogo = computed(() => {
   return true
 })

@@ -9,6 +9,7 @@ import { ElMessage } from 'element-plus'
 import { getToken, removeToken } from './auth'
 import router from '@/router/index'
 
+export let isRelogin = { show: false }
 const service: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,
   timeout: 10000,

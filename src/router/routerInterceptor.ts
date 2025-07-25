@@ -5,6 +5,7 @@ import { getToken } from '@/utils/auth'
 import usePermissionStore from '@/store/modules/permission'
 import userInfoStore from '@/store/modules/user'
 import { ElMessage } from 'element-plus'
+import { isRelogin } from '@/utils/request'
 
 const whiteList = ['/login', '/register', '/404', '/403']
 const iconList: string[] = [
@@ -17,49 +18,50 @@ const iconList: string[] = [
 ]
 
 export const beforeEach = (router: Router) => {
-  router.beforeEach((to, _from, next) => {
+  router.beforeEach(async (to, _from, next) => {
     Nprogress.start()
     if (!window.existLoading) {
       loading.show()
       window.existLoading = true
     }
-    if (getToken()) {
+    const hasToken = getToken()
+    if (hasToken) {
       if (to.path === '/login') {
-        // 如果已登录，跳转到首页
         next({ path: '/' })
+        return
+      }
+      const permissionStore = usePermissionStore()
+      const userStore = userInfoStore()
+      if (!isRelogin.show) {
+        try {
+          const accessRoutes = await permissionStore.generateRoutes()
+          const asyncRoutes = accessRoutes.map((r, i) => ({
+            ...r,
+            icon: iconList[i],
+          }))
+          userStore.setRoutes(asyncRoutes)
+          accessRoutes.forEach((route) => {
+            router.addRoute(route)
+          })
+          isRelogin.show = true
+          next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+        } catch (err) {
+          await userStore.logout()
+          ElMessage({
+            message: err instanceof Error ? err.message : String(err),
+            type: 'error',
+            plain: true,
+          })
+          next({ path: '/login' })
+        }
       } else {
-        usePermissionStore()
-          .generateRoutes()
-          .then((accessRoutes) => {
-            const asyncRoutes = accessRoutes.map((r, i) => {
-              return Object.assign({}, r, { icon: iconList[i] })
-            })
-            userInfoStore().setRoutes(asyncRoutes) // 设置用户路由
-            accessRoutes.forEach((route) => {
-              router.addRoute(route) // 动态添加路由
-            })
-            next({ ...to, replace: true }) // 确保addRoutes已完成
-          })
-          .catch((err) => {
-            userInfoStore()
-              .logout()
-              .then(() => {
-                ElMessage({
-                  message: err,
-                  type: 'error',
-                  plain: true,
-                })
-              })
-            next({ path: '/login' })
-          })
         next()
       }
     } else {
-      if (whiteList.indexOf(to.path) !== -1) {
-        // 在白名单 直接进入
+      if (whiteList.includes(to.path)) {
         next()
       } else {
-        next(`/login?redirect=${to.fullPath}`) // 否则跳转到登录页
+        next(`/login?redirect=${to.fullPath}`)
       }
     }
   })
