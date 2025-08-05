@@ -9,20 +9,38 @@ const key = computed(() => {
 </script>
 
 <template>
-  <router-view :key="key" />
+  <section class="app-container">
+    <transition name="fade-transform" mode="out-in">
+      <router-view :key="key" />
+    </transition>
+  </section>
 </template>
 
 <style lang="scss" scoped>
-.main-container {
+.app-container {
   min-height: calc(100vh - 0px);
   width: 100%;
   position: relative;
   overflow-x: hidden;
-  background-color: #f3f4f7;
+  background-color: #f3f4f7;;
 }
 
-.svg {
-  width: 50px;
-  height: 50px;
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.5s;
+}
+
+.fixed-header + .app-container {
+  padding-top: 46px;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

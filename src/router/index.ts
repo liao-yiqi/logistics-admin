@@ -7,6 +7,7 @@ export const basicRoutes: RouteRecordRaw[] = [
     path: '/login',
     component: () => import('@/views/login/index.vue'),
     hidden: true,
+    replace: true,
   },
   {
     path: '/',
@@ -16,6 +17,7 @@ export const basicRoutes: RouteRecordRaw[] = [
       {
         path: 'dashboard',
         name: 'Dashboard',
+        replace: false,
         component: () => import('@/views/dashboard/index.vue'),
         meta: { title: '工作台', icon: 'dasnboard', navShow: false },
       },

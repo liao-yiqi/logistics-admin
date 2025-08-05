@@ -41,6 +41,7 @@ const routes = computed(() => {
         text-color="var(--menu-text)"
         active-text-color="var(--menu-active-text)"
         background-color="#fff"
+        mode="vertical"
       >
         <MenuItem v-for="route in routes" :key="route.path" :item="route" :basePath="route.path" />
       </el-menu>

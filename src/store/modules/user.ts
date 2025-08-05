@@ -6,20 +6,16 @@ import { ElMessage } from 'element-plus'
 import { defineStore } from 'pinia'
 import type { RouteRecordRaw } from 'vue-router'
 
-type UserInfoState = UserInfo & {
+type UserInfoState = {
   token: string
   routes: RouteRecordRaw[]
+  user: UserInfo
 }
 const useUserInfo = defineStore('userInfo', {
   state: (): UserInfoState => ({
     token: getToken(),
-    account: '',
-    name: '',
-    email: '',
-    mobile: '',
-    sex: { desc: '', code: '' },
-    acatar: null,
     routes: Session_Storage.get('USER_ROUTES'),
+    user: Local_Storage.get('USER_INFO'),
   }),
   actions: {
     login(userInfo: LoginForm): Promise<LoginResult> {
@@ -27,6 +23,7 @@ const useUserInfo = defineStore('userInfo', {
         loginAPI(userInfo)
           .then(({ data }) => {
             setToken(data.token.token)
+            Local_Storage.set('USER_INFO', data.user)
             ElMessage.success('登录成功')
             resolve(data)
           })

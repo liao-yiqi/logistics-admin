@@ -2,7 +2,7 @@
 
 <template>
   <div id="app">
-    <el-scrollbar ref="main" style="height: 100%">
+    <el-scrollbar ref="main" style="height: 100%; width: 100%">
       <router-view />
     </el-scrollbar>
   </div>
@@ -10,6 +10,8 @@
 
 <style lang="scss">
 #app {
-  @include bfc;
+  :deep(.el-scrollbar__wrap) {
+    overflow-x: hidden;
+  }
 }
 </style>

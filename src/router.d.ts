@@ -14,8 +14,8 @@ declare module 'vue-router' {
     parentId?: string
     icon?: string
     redirect?: string
+    replace?: boolean
     // permissions?: string[]
-    // name?: string
     // fullPath?: string
   }
   interface RouteMeta {
@@ -25,6 +25,7 @@ declare module 'vue-router' {
     link?: string
     activeMenu?: string
     navShow?: boolean
+    pageHeader?: boolean
   }
   interface _RouteLocationBase {
     fullPath: string

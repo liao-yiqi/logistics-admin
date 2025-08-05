@@ -7,6 +7,7 @@ import { randomNum } from '@/utils/random.ts'
 import type { FormInstance, FormRules } from 'element-plus'
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import dayjs from 'dayjs'
 
 const randomId = randomNum(24, 16)
 const codeImg = ref<string>()
@@ -23,10 +24,11 @@ onMounted(() => {
   getCaptcha()
 })
 
+const tody = dayjs().format('YYYYMMDD')
 const loginForm = reactive<LoginForm>({
   // demo 995itheima.CN032@.当前日期
   account: 'demo',
-  password: '995itheima.CN032@.20250714',
+  password: `995itheima.CN032@.${tody}`,
   code: '',
   tenant: '0000',
   key: randomId,
@@ -59,14 +61,20 @@ const onSubmit = (loginFormRef: FormInstance): void => {
 <template>
   <div class="xl-login">
     <div class="xl-login__shadow"></div>
-    <!--  <video
+    <video
       src="../../assets/video.mp4"
       autoplay
       loop
       muted
       style="width: 100%; height: 100%; object-fit: fill"
-    ></video> -->
-    <el-form :model="loginForm" :rules="loginFormRules" ref="loginFormRef" class="xl-login__form">
+    ></video>
+    <el-form
+      :model="loginForm"
+      :rules="loginFormRules"
+      ref="loginFormRef"
+      class="xl-login__form"
+      @keydown.navtvie.enter="onSubmit(loginFormRef!)"
+    >
       <div class="xl-login__form--title">
         <img src="../../assets/logo1.png" />
       </div>

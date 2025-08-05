@@ -21,6 +21,7 @@ export declare global {
     lastLoginTime?: string | null
     roles?: string[] | null
     roleNames?: string | null
+    avatar: string | null
   }
 
   interface Sex {

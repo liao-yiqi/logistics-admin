@@ -31,15 +31,23 @@ const fixedHeader = computed((): boolean => {
 </template>
 
 <style lang="scss" scoped>
+@use '@/styles/mixin' as *;
+@use '@/styles/variables' as *;
 .layout-wrapper {
+  @include clearfix;
   position: relative;
   height: 100%;
   width: 100%;
-  &::after {
-    content: '';
-    display: table;
-    clear: both;
-  }
   min-width: 1366px;
+}
+.fixed-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  width: calc(100% - #{$sideBarWidth});
+  transition: width 0.28s;
+  background-color: #f3f5f9;
+  padding: 25px 18px 0 18px;
 }
 </style>
