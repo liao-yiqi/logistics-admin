@@ -6,6 +6,8 @@ import usePermissionStore from '@/store/modules/permission'
 import userInfoStore from '@/store/modules/user'
 import { ElMessage } from 'element-plus'
 import { isRelogin } from '@/utils/request'
+import { Local_Storage } from '@/utils/useStorage'
+import { globalKeys } from '@/config/globalConfig'
 
 const whiteList = ['/login', '/register', '/404', '/403']
 const iconList: string[] = [
@@ -32,6 +34,10 @@ export const beforeEach = (router: Router) => {
       }
       const permissionStore = usePermissionStore()
       const userStore = userInfoStore()
+      if (!userStore.user || Object.keys(userStore.user).length === 0) {
+        const userInfo = Local_Storage.get(globalKeys.USER_INFO)
+        if (userInfo) userStore.user = userInfo
+      }
       if (!isRelogin.show) {
         try {
           const accessRoutes = await permissionStore.generateRoutes()
