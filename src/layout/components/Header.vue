@@ -6,7 +6,7 @@ import { computed } from 'vue'
 import useUserInfo from '@/store/modules/user'
 const layoutStore = useLayoutStore()
 const { sidebar } = layoutStore
-const { user } = useUserInfo()
+const { user, logout } = useUserInfo()
 const userAvatar = computed(() => {
   if (!user['avatar']) {
     return new URL('@/assets/avatar/default.jpg', import.meta.url).href
@@ -32,6 +32,7 @@ const userAvatar = computed(() => {
             alt=""
             class="user-avatar"
             style="width: 18px; height: 19px; border-radius: 0; margin-left: 8px"
+            @click="logout"
           />
         </div>
       </div>

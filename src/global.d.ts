@@ -37,4 +37,10 @@ export declare global {
     routes: PermissionRouterRaw[]
     sideBarRoutes: PermissionRouterRaw[]
   }
+
+  interface GlobalKeys {
+    USER_ROUTES: string
+    USER_INFO: string
+    TokenKey: string
+  }
 }
